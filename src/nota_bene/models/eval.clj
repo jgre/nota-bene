@@ -4,18 +4,20 @@
 (ns nota-bene.models.eval
   (:use [clojail.core :only [sandbox]]
         [clojure.stacktrace :only [root-cause]])
-  (:require [noir.session :as session])
+  (:require [noir.session :as session]
+    [nota-bene.models.visual :as vi])
   (:import java.io.StringWriter
 	   java.util.concurrent.TimeoutException))
 
 (defn eval-form [form sbox]
   (with-open [out (StringWriter.)]
-    (let [result (sbox form {#'*out* out})]
+    (let [result (eval form)] ;(sbox form {#'*out* out})]
       {:expr form
-       :result [out result]})))
+       :result [out result]
+       :visual (vi/visualize result)})))
 
 (defn eval-string [expr sbox]
-  (let [form (binding [*read-eval* false] (read-string expr))]
+  (let [form (binding [*read-eval* true] (read-string expr))]
     (eval-form form sbox)))
 
 (defn make-sandbox []

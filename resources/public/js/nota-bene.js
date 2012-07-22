@@ -330,6 +330,9 @@ function evaluate_code( id) {
             html = html_escape( data.message);
         } else {
             html = html_escape( data.result);
+            if ( data.visual && data.visual.type == "image") {
+                html += "<img src='" + data.visual.path + "'/>";
+            }
         }
         $( "#cell-" + id + " .out-prompt").html( "Out:");
         $( "#cell-" + id + " .out").html( html);

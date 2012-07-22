@@ -11,12 +11,13 @@
       [clojure.java.io :as io]))
 
 (defpage "/eval.json" {:keys [expr jsonp]}
-  (let [{:keys [expr result error message] :as res} (eval-request expr)
+  (let [{:keys [expr result visual error message] :as res} (eval-request expr)
     data (if error
            res
            (let [[out res] result]
              {:expr (pr-str expr)
-              :result (str out (pr-str res))}))]
+              :result (str out (pr-str res))
+              :visual visual}))]
     (if jsonp
       (resp/jsonp jsonp data)
       (resp/json data))))
@@ -39,7 +40,7 @@
 
 (defpage [:get "/list.json"] {}
   (let [
-    workbooks (map extract-metadata (.listFiles (io/file "workbooks")))]
+    workbooks (map extract-metadata (filter #(.isFile %) (.listFiles (io/file "workbooks"))))]
       (resp/json (into [] workbooks))))
 
 (defpage [:get "/load.json/:id"] { :keys [id]}

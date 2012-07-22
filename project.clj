@@ -5,7 +5,8 @@
                            [clojail "0.5.1"]
                            [org.clojure/java.jdbc "0.1.3"]
                            [cheshire "3.0.0"]
-                           [mysql/mysql-connector-java "5.1.6"]]
-            :jvm-opts ["-Djava.security.policy=example.policy""-Xmx80M"]
+                           [mysql/mysql-connector-java "5.1.6"]
+                           [incanter "1.3.0"]]
+            ;:jvm-opts ["-Djava.security.policy=example.policy""-Xmx80M"]
             :main nota-bene.server)
 

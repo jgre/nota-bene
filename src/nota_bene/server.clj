@@ -1,4 +1,5 @@
 (ns nota-bene.server
+  (:use [ring.middleware.file :only [wrap-file]])
   (:require 
   	[noir.server :as server]
   	[cheshire.core :as json]))
@@ -16,6 +17,8 @@
 				response)))
 
 (server/add-middleware logger))
+
+(server/add-middleware wrap-file "/Users/jgre/Software/nota-bene/workbooks/img")
 
 (defn workbook [handler]
   (fn [req]
